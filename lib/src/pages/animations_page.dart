@@ -22,7 +22,27 @@ class AnimatedSquare extends StatefulWidget {
   State<AnimatedSquare> createState() => _AnimatedSquareState();
 }
 
-class _AnimatedSquareState extends State<AnimatedSquare> {
+class _AnimatedSquareState extends State<AnimatedSquare>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> rotation;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+        vsync: this, duration: const Duration(microseconds: 4000));
+
+    rotation = Tween(begin: 0.0, end: 2.0).animate(controller);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return const _Rectangule();
@@ -30,7 +50,7 @@ class _AnimatedSquareState extends State<AnimatedSquare> {
 }
 
 class _Rectangule extends StatelessWidget {
-  const _Rectangule({super.key});
+  const _Rectangule();
 
   @override
   Widget build(BuildContext context) {
