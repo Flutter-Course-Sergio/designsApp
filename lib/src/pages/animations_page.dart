@@ -33,11 +33,13 @@ class _AnimatedSquareState extends State<AnimatedSquare>
     controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 4000));
 
-    rotation = Tween(begin: 0.0, end: 2 * Math.pi).animate(controller);
+    rotation = Tween(begin: 0.0, end: 2 * Math.pi)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
 
     controller.addListener(() {
       if (controller.status == AnimationStatus.completed) {
-        controller.reverse();
+        //controller.reverse();
+        controller.reset();
       }
     });
 
