@@ -37,12 +37,16 @@ class _AnimatedSquareState extends State<AnimatedSquare>
     rotation = Tween(begin: 0.0, end: 2 * math.pi)
         .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
 
-    opacity = Tween(begin: 0.1, end: 1.0).animate(controller);
+    opacity = Tween(begin: 0.1, end: 1.0).animate(
+      CurvedAnimation(
+          parent: controller,
+          curve: const Interval(0, 0.25, curve: Curves.easeOut)),
+    );
 
     controller.addListener(() {
       if (controller.status == AnimationStatus.completed) {
         //controller.reverse();
-        //controller.reset();
+        controller.reset();
       }
     });
 
