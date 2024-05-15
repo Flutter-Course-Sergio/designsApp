@@ -30,7 +30,7 @@ class _AnimatedSquareState extends State<AnimatedSquare>
   @override
   void initState() {
     controller = AnimationController(
-        vsync: this, duration: const Duration(microseconds: 4000));
+        vsync: this, duration: const Duration(milliseconds: 4000));
 
     rotation = Tween(begin: 0.0, end: 2.0).animate(controller);
 
@@ -45,7 +45,15 @@ class _AnimatedSquareState extends State<AnimatedSquare>
 
   @override
   Widget build(BuildContext context) {
-    return const _Rectangule();
+    controller.forward();
+
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) {
+        return Transform.rotate(
+            angle: rotation.value, child: const _Rectangule());
+      },
+    );
   }
 }
 
