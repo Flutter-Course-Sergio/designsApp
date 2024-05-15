@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Widgets
 class SquareHeader extends StatelessWidget {
   const SquareHeader({super.key});
 
@@ -43,6 +44,37 @@ class DiagonalHeader extends StatelessWidget {
   }
 }
 
+class TrianguleHeader extends StatelessWidget {
+  const TrianguleHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: double.infinity,
+      width: double.infinity,
+      child: CustomPaint(
+        painter: _TrianguleHeaderPainter(),
+      ),
+    );
+  }
+}
+
+class SharpHeader extends StatelessWidget {
+  const SharpHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: double.infinity,
+      width: double.infinity,
+      child: CustomPaint(
+        painter: _SharpHeaderPainter(),
+      ),
+    );
+  }
+}
+
+// Painters
 class _DiagonalHeaderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -70,21 +102,6 @@ class _DiagonalHeaderPainter extends CustomPainter {
   }
 }
 
-class TrianguleHeader extends StatelessWidget {
-  const TrianguleHeader({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: double.infinity,
-      width: double.infinity,
-      child: CustomPaint(
-        painter: _TrianguleHeaderPainter(),
-      ),
-    );
-  }
-}
-
 class _TrianguleHeaderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -103,6 +120,33 @@ class _TrianguleHeaderPainter extends CustomPainter {
 
     // path.lineTo(size.width, size.height);
     // path.lineTo(0, size.height);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class _SharpHeaderPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint();
+
+    // Props
+    paint.color = const Color(0xff615aab);
+    paint.style = PaintingStyle.fill;
+    paint.strokeWidth = 20;
+
+    final path = Path();
+
+    // Drawing
+    path.lineTo(0, size.height * 0.25);
+    path.lineTo(size.width * 0.5, size.height * 0.35);
+    path.lineTo(size.width, size.height * 0.25);
+    path.lineTo(size.width, 0);
 
     canvas.drawPath(path, paint);
   }
