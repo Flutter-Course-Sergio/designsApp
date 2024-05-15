@@ -28,6 +28,7 @@ class _AnimatedSquareState extends State<AnimatedSquare>
   late AnimationController controller;
   late Animation<double> rotation;
   late Animation<double> opacity;
+  late Animation<double> moveRight;
 
   @override
   void initState() {
@@ -43,10 +44,12 @@ class _AnimatedSquareState extends State<AnimatedSquare>
           curve: const Interval(0, 0.25, curve: Curves.easeOut)),
     );
 
+    moveRight = Tween(begin: 0.0, end: 200.0).animate(controller);
+
     controller.addListener(() {
       if (controller.status == AnimationStatus.completed) {
         //controller.reverse();
-        controller.reset();
+        //controller.reset();
       }
     });
 
@@ -67,12 +70,15 @@ class _AnimatedSquareState extends State<AnimatedSquare>
       animation: controller,
       child: const _Rectangule(),
       builder: (context, child) {
-        return Transform.rotate(
-            angle: rotation.value,
-            child: Opacity(
-              opacity: opacity.value,
-              child: child,
-            ));
+        return Transform.translate(
+          offset: Offset(moveRight.value, 0),
+          child: Transform.rotate(
+              angle: rotation.value,
+              child: Opacity(
+                opacity: opacity.value,
+                child: child,
+              )),
+        );
       },
     );
   }
