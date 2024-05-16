@@ -28,6 +28,7 @@ class _AnimatedSquareState extends State<AnimatedSquare>
   late AnimationController controller;
   late Animation<double> rotation;
   late Animation<double> opacity;
+  late Animation<double> fadeOut;
   late Animation<double> moveRight;
   late Animation<double> resizeBig;
 
@@ -45,6 +46,12 @@ class _AnimatedSquareState extends State<AnimatedSquare>
           curve: const Interval(0, 0.25, curve: Curves.easeOut)),
     );
 
+    fadeOut = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+          parent: controller,
+          curve: const Interval(0.75, 1.0, curve: Curves.easeOut)),
+    );
+
     moveRight = Tween(begin: 0.0, end: 200.0)
         .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
 
@@ -53,8 +60,8 @@ class _AnimatedSquareState extends State<AnimatedSquare>
 
     controller.addListener(() {
       if (controller.status == AnimationStatus.completed) {
-        controller.reverse();
-        //controller.reset();
+        //controller.reverse();
+        controller.reset();
       }
     });
 
@@ -80,7 +87,7 @@ class _AnimatedSquareState extends State<AnimatedSquare>
           child: Transform.rotate(
               angle: rotation.value,
               child: Opacity(
-                opacity: opacity.value,
+                opacity: opacity.value - fadeOut.value,
                 child: Transform.scale(
                     scale: resizeBig.value, child: childRectangule),
               )),
