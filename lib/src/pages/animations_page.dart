@@ -29,6 +29,7 @@ class _AnimatedSquareState extends State<AnimatedSquare>
   late Animation<double> rotation;
   late Animation<double> opacity;
   late Animation<double> moveRight;
+  late Animation<double> resizeBig;
 
   @override
   void initState() {
@@ -44,11 +45,15 @@ class _AnimatedSquareState extends State<AnimatedSquare>
           curve: const Interval(0, 0.25, curve: Curves.easeOut)),
     );
 
-    moveRight = Tween(begin: 0.0, end: 200.0).animate(controller);
+    moveRight = Tween(begin: 0.0, end: 200.0)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
+
+    resizeBig = Tween(begin: 0.0, end: 2.0)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
 
     controller.addListener(() {
       if (controller.status == AnimationStatus.completed) {
-        //controller.reverse();
+        controller.reverse();
         //controller.reset();
       }
     });
@@ -69,14 +74,15 @@ class _AnimatedSquareState extends State<AnimatedSquare>
     return AnimatedBuilder(
       animation: controller,
       child: const _Rectangule(),
-      builder: (context, child) {
+      builder: (BuildContext context, Widget? childRectangule) {
         return Transform.translate(
           offset: Offset(moveRight.value, 0),
           child: Transform.rotate(
               angle: rotation.value,
               child: Opacity(
                 opacity: opacity.value,
-                child: child,
+                child: Transform.scale(
+                    scale: resizeBig.value, child: childRectangule),
               )),
         );
       },
