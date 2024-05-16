@@ -25,10 +25,9 @@ class _CircularGraphicsPageState extends State<CircularGraphicsPage> {
         child: const Icon(Icons.refresh),
       ),
       body: Center(
-        child: Container(
+        child: SizedBox(
           width: 300,
           height: 300,
-          color: Colors.redAccent,
           child: RadialProgress(percentage: percentage),
         ),
       ),
