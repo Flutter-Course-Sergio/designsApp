@@ -28,7 +28,11 @@ class _CircularGraphicsPageState extends State<CircularGraphicsPage> {
         child: SizedBox(
           width: 300,
           height: 300,
-          child: RadialProgress(percentage: percentage),
+          child: RadialProgress(
+            percentage: percentage,
+            primaryColor: Colors.green,
+            secondaryColor: Colors.black,
+          ),
         ),
       ),
     );
