@@ -88,6 +88,7 @@ class _RadialProgressPainter extends CustomPainter {
     final paintArc = Paint()
       ..strokeWidth = 8
       ..color = primaryColor
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     double arcAngle = 2 * pi * (percentage / 100);
