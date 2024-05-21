@@ -180,21 +180,21 @@ class _SlideshowModel with ChangeNotifier {
 
   set primaryColor(Color primary) {
     _primaryColor = primary;
-    notifyListeners();
+    
   }
 
   set secondaryColor(Color secondary) {
     _secondaryColor = secondary;
-    notifyListeners();
+    
   }
 
   set primaryBullet(double size) {
     _primaryBullet = size;
-    notifyListeners();
+    
   }
 
   set secondaryBullet(double size) {
     _secondaryBullet = size;
-    notifyListeners();
+    
   }
 }
