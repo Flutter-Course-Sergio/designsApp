@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../models/slider_model.dart';
 
 class Slideshow extends StatelessWidget {
-  const Slideshow({super.key});
+  final List<Widget> slides;
+
+  const Slideshow({super.key, required this.slides});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class Slideshow extends StatelessWidget {
       child: Center(
           child: Column(
         children: [
-          Expanded(child: _Slides()),
+          Expanded(child: _Slides(slides)),
           const _Dots(),
         ],
       )),
@@ -23,6 +24,10 @@ class Slideshow extends StatelessWidget {
 }
 
 class _Slides extends StatefulWidget {
+  final List<Widget> slides;
+
+  const _Slides(this.slides);
+
   @override
   State<_Slides> createState() => _SlidesState();
 }
@@ -48,20 +53,16 @@ class _SlidesState extends State<_Slides> {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      controller: pageViewController,
-      children: const [
-        _Slide('assets/svgs/slide-1.svg'),
-        _Slide('assets/svgs/slide-2.svg'),
-        _Slide('assets/svgs/slide-3.svg')
-      ],
-    );
+        controller: pageViewController,
+        children: widget.slides.map((slide) => _Slide(slide)).toList()
+        );
   }
 }
 
 class _Slide extends StatelessWidget {
-  final String svg;
+  final Widget slide;
 
-  const _Slide(this.svg);
+  const _Slide(this.slide);
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +70,7 @@ class _Slide extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         padding: const EdgeInsets.all(30),
-        child: SvgPicture.asset(svg));
+        child: slide);
   }
 }
 
