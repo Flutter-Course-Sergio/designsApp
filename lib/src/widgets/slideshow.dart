@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/slider_model.dart';
-
 class Slideshow extends StatelessWidget {
   final List<Widget> slides;
   final bool dotsUp;
@@ -19,17 +17,39 @@ class Slideshow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SliderModel(),
+      create: (_) => _SlideshowModel(),
       child: SafeArea(
-        child: Center(
-            child: Column(
-          children: [
-            if (dotsUp) _Dots(slides.length, primaryColor, secondaryColor),
-            Expanded(child: _Slides(slides)),
-            if (!dotsUp) _Dots(slides.length, primaryColor, secondaryColor),
-          ],
+        child: Center(child: Builder(
+          builder: (context) {
+            Provider.of<_SlideshowModel>(context)._primaryColor = primaryColor;
+            Provider.of<_SlideshowModel>(context)._secondaryColor =
+                secondaryColor;
+
+            return _SlideshowStructure(dotsUp: dotsUp, slides: slides);
+          },
         )),
       ),
+    );
+  }
+}
+
+class _SlideshowStructure extends StatelessWidget {
+  const _SlideshowStructure({
+    required this.dotsUp,
+    required this.slides,
+  });
+
+  final bool dotsUp;
+  final List<Widget> slides;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        if (dotsUp) _Dots(slides.length),
+        Expanded(child: _Slides(slides)),
+        if (!dotsUp) _Dots(slides.length),
+      ],
     );
   }
 }
@@ -50,7 +70,7 @@ class _SlidesState extends State<_Slides> {
   void initState() {
     super.initState();
     pageViewController.addListener(() {
-      Provider.of<SliderModel>(context, listen: false).currentPage =
+      Provider.of<_SlideshowModel>(context, listen: false).currentPage =
           pageViewController.page!;
     });
   }
@@ -86,10 +106,8 @@ class _Slide extends StatelessWidget {
 
 class _Dots extends StatelessWidget {
   final int totalSlides;
-  final Color primaryColor;
-  final Color secondaryColor;
 
-  const _Dots(this.totalSlides, this.primaryColor, this.secondaryColor);
+  const _Dots(this.totalSlides);
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +116,7 @@ class _Dots extends StatelessWidget {
       height: 70,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(
-            totalSlides, (index) => _Dot(index, primaryColor, secondaryColor)),
+        children: List.generate(totalSlides, (index) => _Dot(index)),
       ),
     );
   }
@@ -107,14 +124,14 @@ class _Dots extends StatelessWidget {
 
 class _Dot extends StatelessWidget {
   final int index;
-  final Color primaryColor;
-  final Color secondaryColor;
 
-  const _Dot(this.index, this.primaryColor, this.secondaryColor);
+  const _Dot(this.index);
 
   @override
   Widget build(BuildContext context) {
-    final pageViewIndex = Provider.of<SliderModel>(context).currentPage;
+    final pageViewIndex = Provider.of<_SlideshowModel>(context).currentPage;
+    final primaryColor = Provider.of<_SlideshowModel>(context).primaryColor;
+    final secondaryColor = Provider.of<_SlideshowModel>(context).secondaryColor;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
@@ -127,5 +144,30 @@ class _Dot extends StatelessWidget {
               : secondaryColor,
           shape: BoxShape.circle),
     );
+  }
+}
+
+class _SlideshowModel with ChangeNotifier {
+  double _currentPage = 0;
+  Color _primaryColor = Colors.blue;
+  Color _secondaryColor = Colors.grey;
+
+  double get currentPage => _currentPage;
+  Color get primaryColor => _primaryColor;
+  Color get secondaryColor => _secondaryColor;
+
+  set currentPage(double currentPage) {
+    _currentPage = currentPage;
+    notifyListeners();
+  }
+
+  set primaryColor(Color primary) {
+    _primaryColor = primary;
+    notifyListeners();
+  }
+
+  set secondaryColor(Color secondary) {
+    _secondaryColor = secondary;
+    notifyListeners();
   }
 }
