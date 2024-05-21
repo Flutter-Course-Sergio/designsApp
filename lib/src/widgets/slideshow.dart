@@ -6,13 +6,17 @@ class Slideshow extends StatelessWidget {
   final bool dotsUp;
   final Color primaryColor;
   final Color secondaryColor;
+  final double primaryBullet;
+  final double secondaryBullet;
 
   const Slideshow(
       {super.key,
       required this.slides,
       this.dotsUp = false,
       this.primaryColor = Colors.blue,
-      this.secondaryColor = Colors.grey});
+      this.secondaryColor = Colors.grey,
+      this.primaryBullet = 12,
+      this.secondaryBullet = 12});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +28,10 @@ class Slideshow extends StatelessWidget {
             Provider.of<_SlideshowModel>(context)._primaryColor = primaryColor;
             Provider.of<_SlideshowModel>(context)._secondaryColor =
                 secondaryColor;
+            Provider.of<_SlideshowModel>(context)._primaryBullet =
+                primaryBullet;
+            Provider.of<_SlideshowModel>(context)._secondaryBullet =
+                secondaryBullet;
 
             return _SlideshowStructure(dotsUp: dotsUp, slides: slides);
           },
@@ -129,20 +137,25 @@ class _Dot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pageViewIndex = Provider.of<_SlideshowModel>(context).currentPage;
-    final primaryColor = Provider.of<_SlideshowModel>(context).primaryColor;
-    final secondaryColor = Provider.of<_SlideshowModel>(context).secondaryColor;
+    final ssModel = Provider.of<_SlideshowModel>(context);
+    double size;
+    Color color;
+
+    if (ssModel.currentPage >= index - 0.5 &&
+        ssModel.currentPage < index + 0.5) {
+      size = ssModel.primaryBullet;
+      color = ssModel.primaryColor;
+    } else {
+      size = ssModel.secondaryBullet;
+      color = ssModel.secondaryColor;
+    }
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      width: 12,
-      height: 12,
+      width: size,
+      height: size,
       margin: const EdgeInsets.symmetric(horizontal: 5),
-      decoration: BoxDecoration(
-          color: (pageViewIndex >= index - 0.5 && pageViewIndex < index + 0.5)
-              ? primaryColor
-              : secondaryColor,
-          shape: BoxShape.circle),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
     );
   }
 }
@@ -151,10 +164,14 @@ class _SlideshowModel with ChangeNotifier {
   double _currentPage = 0;
   Color _primaryColor = Colors.blue;
   Color _secondaryColor = Colors.grey;
+  double _primaryBullet = 12;
+  double _secondaryBullet = 12;
 
   double get currentPage => _currentPage;
   Color get primaryColor => _primaryColor;
   Color get secondaryColor => _secondaryColor;
+  double get primaryBullet => _primaryBullet;
+  double get secondaryBullet => _secondaryBullet;
 
   set currentPage(double currentPage) {
     _currentPage = currentPage;
@@ -168,6 +185,16 @@ class _SlideshowModel with ChangeNotifier {
 
   set secondaryColor(Color secondary) {
     _secondaryColor = secondary;
+    notifyListeners();
+  }
+
+  set primaryBullet(double size) {
+    _primaryBullet = size;
+    notifyListeners();
+  }
+
+  set secondaryBullet(double size) {
+    _secondaryBullet = size;
     notifyListeners();
   }
 }
