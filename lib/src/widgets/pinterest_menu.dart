@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PinterestButton {
   final Function() onPressed;
@@ -21,7 +22,10 @@ class PinterestMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: _PinterestMenuBackground(child: _MenuItems(items)));
+    return Center(
+        child: ChangeNotifierProvider(
+            create: (_) => _MenuModel(),
+            child: _PinterestMenuBackground(child: _MenuItems(items))));
   }
 }
 
@@ -60,28 +64,42 @@ class _MenuItems extends StatelessWidget {
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(menuItems.length,
-            (index) => _PinterestMenuItem(index, menuItems[index])));
+            (index) => _PinterestMenuButton(index, menuItems[index])));
   }
 }
 
-class _PinterestMenuItem extends StatelessWidget {
+class _PinterestMenuButton extends StatelessWidget {
   final int index;
   final PinterestButton item;
 
-  const _PinterestMenuItem(this.index, this.item);
+  const _PinterestMenuButton(this.index, this.item);
 
   @override
   Widget build(BuildContext context) {
+    final selectedItem = Provider.of<_MenuModel>(context).selectedItem;
+
     return GestureDetector(
-      onTap: item.onPressed,
+      onTap: () {
+        Provider.of<_MenuModel>(context, listen: false).itemSelected = index;
+        item.onPressed();
+      },
       behavior: HitTestBehavior.translucent,
-      child: Container(
-        child: Icon(
-          item.icon,
-          size: 25,
-          color: Colors.blueGrey,
-        ),
+      child: Icon(
+        item.icon,
+        size: (selectedItem == index) ? 30 : 25,
+        color: (selectedItem == index) ? Colors.black : Colors.blueGrey,
       ),
     );
+  }
+}
+
+class _MenuModel with ChangeNotifier {
+  int _selectedItem = 0;
+
+  int get selectedItem => _selectedItem;
+
+  set itemSelected(int index) {
+    _selectedItem = index;
+    notifyListeners();
   }
 }
