@@ -11,6 +11,7 @@ class SlideshowPage extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: Slideshow(
+        primaryColor: Colors.greenAccent.shade400,
         slides: [
           SvgPicture.asset('assets/svgs/slide-1.svg'),
           SvgPicture.asset('assets/svgs/slide-2.svg'),
