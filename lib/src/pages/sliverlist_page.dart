@@ -5,7 +5,44 @@ class SliverlistPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: _Title());
+    return Scaffold(body: _MainScroll());
+  }
+}
+
+class _MainScroll extends StatelessWidget {
+  final items = [
+    const _TodoItem(text: 'Orange', color: Color(0xffF08F66)),
+    const _TodoItem(text: 'Family', color: Color(0xffF2A38A)),
+    const _TodoItem(text: 'Subscriptions', color: Color(0xffF7CDD5)),
+    const _TodoItem(text: 'Books', color: Color(0xffFCEBAF)),
+    const _TodoItem(text: 'Orange', color: Color(0xffF08F66)),
+    const _TodoItem(text: 'Family', color: Color(0xffF2A38A)),
+    const _TodoItem(text: 'Subscriptions', color: Color(0xffF7CDD5)),
+    const _TodoItem(text: 'Books', color: Color(0xffFCEBAF)),
+    const _TodoItem(text: 'Orange', color: Color(0xffF08F66)),
+    const _TodoItem(text: 'Family', color: Color(0xffF2A38A)),
+    const _TodoItem(text: 'Subscriptions', color: Color(0xffF7CDD5)),
+    const _TodoItem(text: 'Books', color: Color(0xffFCEBAF)),
+    const _TodoItem(text: 'Orange', color: Color(0xffF08F66)),
+    const _TodoItem(text: 'Family', color: Color(0xffF2A38A)),
+    const _TodoItem(text: 'Subscriptions', color: Color(0xffF7CDD5)),
+    const _TodoItem(text: 'Books', color: Color(0xffFCEBAF)),
+  ];
+
+  _MainScroll({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          floating: true,
+          backgroundColor: Colors.red,
+          title: Text('Hola mundo'),
+        ),
+        SliverList(delegate: SliverChildListDelegate(items))
+      ],
+    );
   }
 }
 
@@ -25,7 +62,6 @@ class _Title extends StatelessWidget {
           ),
         ),
         Stack(
-          
           children: [
             const SizedBox(width: 100),
             Positioned(
@@ -55,13 +91,27 @@ class _TodoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final items = [
+      const _TodoItem(text: 'Orange', color: Color(0xffF08F66)),
+      const _TodoItem(text: 'Family', color: Color(0xffF2A38A)),
+      const _TodoItem(text: 'Subscriptions', color: Color(0xffF7CDD5)),
+      const _TodoItem(text: 'Books', color: Color(0xffFCEBAF)),
+      const _TodoItem(text: 'Orange', color: Color(0xffF08F66)),
+      const _TodoItem(text: 'Family', color: Color(0xffF2A38A)),
+      const _TodoItem(text: 'Subscriptions', color: Color(0xffF7CDD5)),
+      const _TodoItem(text: 'Books', color: Color(0xffFCEBAF)),
+    ];
+
     return ListView.builder(
-        itemCount: 20, itemBuilder: (context, index) => const _TodoItem());
+        itemCount: items.length, itemBuilder: (context, index) => items[index]);
   }
 }
 
 class _TodoItem extends StatelessWidget {
-  const _TodoItem();
+  final String text;
+  final Color color;
+
+  const _TodoItem({required this.text, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +120,11 @@ class _TodoItem extends StatelessWidget {
       padding: const EdgeInsets.all(30),
       height: 130,
       margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          color: Colors.greenAccent, borderRadius: BorderRadius.circular(30)),
-      child: const Text(
-        'Orange',
-        style: TextStyle(
+      decoration:
+          BoxDecoration(color: color, borderRadius: BorderRadius.circular(30)),
+      child: Text(
+        text,
+        style: const TextStyle(
             color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
       ),
     );
