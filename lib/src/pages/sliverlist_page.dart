@@ -29,20 +29,58 @@ class _MainScroll extends StatelessWidget {
     const _TodoItem(text: 'Books', color: Color(0xffFCEBAF)),
   ];
 
-  _MainScroll({super.key});
+  _MainScroll();
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverAppBar(
-          floating: true,
-          backgroundColor: Colors.red,
-          title: Text('Hola mundo'),
-        ),
-        SliverList(delegate: SliverChildListDelegate(items))
+        SliverPersistentHeader(
+            floating: true,
+            delegate: _SliverCustomHeaderDelegate(
+                minHeight: 200,
+                maxHeight: 220,
+                child: Container(
+                    alignment: Alignment.centerLeft,
+                    color: Colors.white,
+                    child: const _Title()))),
+        SliverList(
+            delegate: SliverChildListDelegate([
+          ...items,
+          const SizedBox(
+            height: 100,
+          )
+        ]))
       ],
     );
+  }
+}
+
+class _SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+  _SliverCustomHeaderDelegate(
+      {required this.minHeight, required this.maxHeight, required this.child});
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox.expand(child: child);
+  }
+
+  @override
+  double get maxExtent => maxHeight;
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  bool shouldRebuild(_SliverCustomHeaderDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }
 
@@ -83,27 +121,6 @@ class _Title extends StatelessWidget {
         )
       ],
     );
-  }
-}
-
-class _TodoList extends StatelessWidget {
-  const _TodoList();
-
-  @override
-  Widget build(BuildContext context) {
-    final items = [
-      const _TodoItem(text: 'Orange', color: Color(0xffF08F66)),
-      const _TodoItem(text: 'Family', color: Color(0xffF2A38A)),
-      const _TodoItem(text: 'Subscriptions', color: Color(0xffF7CDD5)),
-      const _TodoItem(text: 'Books', color: Color(0xffFCEBAF)),
-      const _TodoItem(text: 'Orange', color: Color(0xffF08F66)),
-      const _TodoItem(text: 'Family', color: Color(0xffF2A38A)),
-      const _TodoItem(text: 'Subscriptions', color: Color(0xffF7CDD5)),
-      const _TodoItem(text: 'Books', color: Color(0xffFCEBAF)),
-    ];
-
-    return ListView.builder(
-        itemCount: items.length, itemBuilder: (context, index) => items[index]);
   }
 }
 
