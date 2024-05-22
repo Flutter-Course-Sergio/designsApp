@@ -1,4 +1,7 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 //Widgets
 class SquareHeader extends StatelessWidget {
@@ -305,6 +308,46 @@ class _WaveHeaderGradientPainter extends CustomPainter {
 // Emergency header
 class IconHeader extends StatelessWidget {
   const IconHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final Color textColor = Colors.white.withOpacity(0.7);
+
+    return Stack(children: [
+      const _IconHeaderBackground(),
+      Positioned(
+          top: -50,
+          left: -70,
+          child: FaIcon(
+            FontAwesomeIcons.plus,
+            size: 250,
+            color: Colors.white.withOpacity(0.2),
+          )),
+      Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 80),
+            Text(
+              'Haz solicitado',
+              style: TextStyle(fontSize: 20, color: textColor),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Asistencia Médica',
+              style: TextStyle(
+                  fontSize: 25, color: textColor, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            const FaIcon(FontAwesomeIcons.plus, size: 80, color: Colors.white)
+          ],
+        ),
+      )
+    ]);
+  }
+}
+
+class _IconHeaderBackground extends StatelessWidget {
+  const _IconHeaderBackground();
 
   @override
   Widget build(BuildContext context) {
