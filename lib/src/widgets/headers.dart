@@ -313,7 +313,7 @@ class IconHeader extends StatelessWidget {
 
   const IconHeader(
       {super.key,
-      required this.icon,
+      this.icon = FontAwesomeIcons.circle,
       required this.title,
       required this.subtitle,
       this.color1 = Colors.blue,

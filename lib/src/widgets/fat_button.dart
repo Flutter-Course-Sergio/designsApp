@@ -11,41 +11,45 @@ class FatButton extends StatelessWidget {
 
   const FatButton(
       {super.key,
-      required this.icon,
+      this.icon = FontAwesomeIcons.circle,
       required this.text,
-      this.color1 = const Color(0xff6989f5),
-      this.color2 = const Color(0xff906ef5),
+      this.color1 = Colors.grey,
+      this.color2 = Colors.blueGrey,
       this.textColor = Colors.white,
       required this.onPress});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      _FatButtonBackground(icon, color1, color2),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 140,
-            width: 40,
-          ),
-          FaIcon(
-            icon,
-            size: 40,
-            color: Colors.white,
-          ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Text(text, style: TextStyle(color: textColor, fontSize: 18)),
-          ),
-          const FaIcon(
-            FontAwesomeIcons.chevronRight,
-            color: Colors.white,
-          ),
-          const SizedBox(width: 40),
-        ],
-      )
-    ]);
+    return GestureDetector(
+      onTap: onPress,
+      child: Stack(children: [
+        _FatButtonBackground(icon, color1, color2),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 140,
+              width: 40,
+            ),
+            FaIcon(
+              icon,
+              size: 40,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child:
+                  Text(text, style: TextStyle(color: textColor, fontSize: 18)),
+            ),
+            const FaIcon(
+              FontAwesomeIcons.chevronRight,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 40),
+          ],
+        )
+      ]),
+    );
   }
 }
 
