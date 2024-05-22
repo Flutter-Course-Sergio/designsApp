@@ -307,19 +307,31 @@ class _WaveHeaderGradientPainter extends CustomPainter {
 
 // Emergency header
 class IconHeader extends StatelessWidget {
-  const IconHeader({super.key});
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final Color color1;
+  final Color color2;
+
+  const IconHeader(
+      {super.key,
+      required this.icon,
+      required this.title,
+      required this.subtitle,
+      this.color1 = Colors.blue,
+      this.color2 = Colors.blueAccent});
 
   @override
   Widget build(BuildContext context) {
     final Color textColor = Colors.white.withOpacity(0.7);
 
     return Stack(children: [
-      const _IconHeaderBackground(),
+      _IconHeaderBackground(color1, color2),
       Positioned(
           top: -50,
           left: -70,
           child: FaIcon(
-            FontAwesomeIcons.plus,
+            icon,
             size: 250,
             color: Colors.white.withOpacity(0.2),
           )),
@@ -328,17 +340,17 @@ class IconHeader extends StatelessWidget {
           children: [
             const SizedBox(height: 80),
             Text(
-              'Haz solicitado',
+              title,
               style: TextStyle(fontSize: 20, color: textColor),
             ),
             const SizedBox(height: 20),
             Text(
-              'Asistencia Médica',
+              subtitle,
               style: TextStyle(
                   fontSize: 25, color: textColor, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            const FaIcon(FontAwesomeIcons.plus, size: 80, color: Colors.white)
+            FaIcon(icon, size: 80, color: Colors.white)
           ],
         ),
       )
@@ -347,21 +359,25 @@ class IconHeader extends StatelessWidget {
 }
 
 class _IconHeaderBackground extends StatelessWidget {
-  const _IconHeaderBackground();
+  const _IconHeaderBackground(this.color1, this.color2);
+
+  final Color color1;
+  final Color color2;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 300,
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(80)),
+      decoration: BoxDecoration(
+          borderRadius:
+              const BorderRadius.only(bottomLeft: Radius.circular(80)),
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.center,
               colors: [
-                Color(0xff526bf6),
-                Color(0xff67acf2),
+                color1,
+                color2,
               ])),
     );
   }
