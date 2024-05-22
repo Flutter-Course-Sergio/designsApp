@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -45,13 +46,16 @@ class EmergencyPage extends StatelessWidget {
           const Color(0xff317183), const Color(0xff46997D)),
     ];
 
-    List<FatButton> itemMap = items
-        .map((item) => FatButton(
-            onPress: () => print('Click ${item.text}'),
-            text: item.text,
-            icon: item.icon,
-            color1: item.color1,
-            color2: item.color2))
+    List<Widget> itemMap = items
+        .map((item) => FadeInLeft(
+              duration: const Duration(milliseconds: 250),
+              child: FatButton(
+                  onPress: () => print('Click ${item.text}'),
+                  text: item.text,
+                  icon: item.icon,
+                  color1: item.color1,
+                  color2: item.color2),
+            ))
         .toList();
 
     return Scaffold(
