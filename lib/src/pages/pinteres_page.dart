@@ -54,7 +54,7 @@ class _PinterestGridState extends State<PinterestGrid> {
   @override
   void initState() {
     controller.addListener(() {
-      if (controller.offset > lastScroll) {
+      if (controller.offset > lastScroll && controller.offset > 150) {
         Provider.of<_MenuModel>(context, listen: false).show = false;
       } else {
         Provider.of<_MenuModel>(context, listen: false).show = true;
