@@ -9,9 +9,13 @@ class EmergencyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: FatButton(),
+        child: FatButton(
+          icon: FontAwesomeIcons.carBurst,
+          text: 'Motor Accident',
+          onPress: () {},
+        ),
       ),
     );
   }
