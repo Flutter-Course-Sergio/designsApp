@@ -24,17 +24,20 @@ class _OptionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context).currentTheme;
+
     return ListView.separated(
         physics: const BouncingScrollPhysics(),
-        separatorBuilder: (context, index) => const Divider(
-              color: Colors.blue,
+        separatorBuilder: (context, index) => Divider(
+              color: appTheme.primaryColorLight,
             ),
         itemBuilder: (context, index) => ListTile(
-              leading: FaIcon(pageRoutes[index].icon, color: Colors.blue),
+              leading: FaIcon(pageRoutes[index].icon,
+                  color: appTheme.colorScheme.secondary),
               title: Text(pageRoutes[index].title),
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.chevron_right_rounded,
-                color: Colors.blue,
+                color: appTheme.colorScheme.secondary,
               ),
               onTap: () {
                 Navigator.push(
@@ -54,17 +57,18 @@ class _MainMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = Provider.of<ThemeChanger>(context);
+    final accentColor = appTheme.currentTheme.colorScheme.secondary;
 
     return Drawer(
       child: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             child: SizedBox(
               width: double.infinity,
               height: 200,
               child: CircleAvatar(
-                backgroundColor: Colors.blue,
-                child: Text(
+                backgroundColor: accentColor,
+                child: const Text(
                   'SB',
                   style: TextStyle(fontSize: 50),
                 ),
@@ -73,19 +77,19 @@ class _MainMenu extends StatelessWidget {
           ),
           const Expanded(child: _OptionsList()),
           ListTile(
-            leading: const Icon(Icons.lightbulb_outline, color: Colors.blue),
+            leading: Icon(Icons.lightbulb_outline, color: accentColor),
             title: const Text('Dark Mode'),
             trailing: Switch.adaptive(
                 value: appTheme.darkTheme,
-                activeColor: Colors.blue,
+                activeColor: accentColor,
                 onChanged: (value) => appTheme.darkTheme = value),
           ),
           ListTile(
-            leading: const Icon(Icons.add_to_home_screen, color: Colors.blue),
+            leading: Icon(Icons.add_to_home_screen, color: accentColor),
             title: const Text('Custom Theme'),
             trailing: Switch.adaptive(
                 value: appTheme.customTheme,
-                activeColor: Colors.blue,
+                activeColor: accentColor,
                 onChanged: (value) => appTheme.customTheme = value),
           ),
         ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
+import '../theme/theme.dart';
 import '../widgets/slideshow.dart';
 
 class SlideshowPage extends StatelessWidget {
@@ -9,7 +11,6 @@ class SlideshowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Colors.blueGrey,
       body: Center(
           child: Column(
         children: [
@@ -26,9 +27,12 @@ class MySlideshow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context);
+    final accentColor = appTheme.currentTheme.colorScheme.secondary;
+
     return Slideshow(
-      primaryColor: Colors.greenAccent.shade400,
-      secondaryColor: Colors.white,
+      primaryColor:
+          (appTheme.darkTheme) ? accentColor : Colors.greenAccent.shade400,
       primaryBullet: 15,
       secondaryBullet: 12,
       slides: [
