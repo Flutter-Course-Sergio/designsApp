@@ -4,18 +4,35 @@ import 'package:provider/provider.dart';
 
 import '../routes/routes.dart';
 import '../theme/theme.dart';
+import 'slideshow_page.dart';
 
-class LauncherPage extends StatelessWidget {
-  const LauncherPage({super.key});
+class LauncherTabletPage extends StatelessWidget {
+  const LauncherTabletPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context).currentTheme;
+
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Diseño en Flutter - Teléfono'),
+          title: const Text('Diseño en Flutter - Tablet'),
         ),
         drawer: const _MainMenu(),
-        body: const _OptionsList());
+        body: Row(
+          children: [
+            const SizedBox(
+              width: 300,
+              height: double.infinity,
+              child: _OptionsList(),
+            ),
+            Container(
+              width: 1,
+              height: double.infinity,
+              color: appTheme.colorScheme.onBackground,
+            ),
+            const Expanded(child: SlideshowPage())
+          ],
+        ));
   }
 }
 
