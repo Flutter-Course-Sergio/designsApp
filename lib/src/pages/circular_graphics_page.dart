@@ -61,8 +61,8 @@ class CustomRadialProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 300,
-      height: 300,
+      width: 100,
+      height: 100,
       child: RadialProgress(
         percentage: percentage,
         primaryColor: color,
