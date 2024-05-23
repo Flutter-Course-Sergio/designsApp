@@ -28,11 +28,14 @@ class MySlideshow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = Provider.of<ThemeChanger>(context);
-    final accentColor = appTheme.currentTheme.colorScheme.secondary;
+    final primaryThemeColor = appTheme.currentTheme.colorScheme.primary;
+    final secondaryThemeColor = appTheme.currentTheme.colorScheme.secondary;
 
     return Slideshow(
-      primaryColor:
-          (appTheme.darkTheme) ? accentColor : Colors.greenAccent.shade400,
+      primaryColor: (appTheme.darkTheme)
+          ? primaryThemeColor
+          : Colors.greenAccent.shade400,
+      secondaryColor: secondaryThemeColor,
       primaryBullet: 15,
       secondaryBullet: 12,
       slides: [

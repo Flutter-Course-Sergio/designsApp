@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
+
+import '../theme/theme.dart';
 
 class AnimationsPage extends StatelessWidget {
   const AnimationsPage({super.key});
@@ -102,10 +105,11 @@ class _Rectangule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context).currentTheme;
     return Container(
       width: 70,
       height: 70,
-      decoration: const BoxDecoration(color: Colors.blue),
+      decoration: BoxDecoration(color: appTheme.colorScheme.secondary),
     );
   }
 }

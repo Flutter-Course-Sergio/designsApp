@@ -57,7 +57,6 @@ class _MainMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = Provider.of<ThemeChanger>(context);
-    final accentColor = appTheme.currentTheme.colorScheme.secondary;
 
     return Drawer(
       child: Column(
@@ -67,29 +66,33 @@ class _MainMenu extends StatelessWidget {
               width: double.infinity,
               height: 200,
               child: CircleAvatar(
-                backgroundColor: accentColor,
-                child: const Text(
+                backgroundColor: appTheme.currentTheme.colorScheme.onBackground,
+                child: Text(
                   'SB',
-                  style: TextStyle(fontSize: 50),
+                  style: TextStyle(
+                      fontSize: 50,
+                      color: appTheme.currentTheme.colorScheme.background),
                 ),
               ),
             ),
           ),
           const Expanded(child: _OptionsList()),
           ListTile(
-            leading: Icon(Icons.lightbulb_outline, color: accentColor),
+            leading: Icon(Icons.lightbulb_outline,
+                color: appTheme.currentTheme.colorScheme.secondary),
             title: const Text('Dark Mode'),
             trailing: Switch.adaptive(
                 value: appTheme.darkTheme,
-                activeColor: accentColor,
+                activeColor: appTheme.currentTheme.colorScheme.tertiary,
                 onChanged: (value) => appTheme.darkTheme = value),
           ),
           ListTile(
-            leading: Icon(Icons.add_to_home_screen, color: accentColor),
+            leading: Icon(Icons.add_to_home_screen,
+                color: appTheme.currentTheme.colorScheme.secondary),
             title: const Text('Custom Theme'),
             trailing: Switch.adaptive(
                 value: appTheme.customTheme,
-                activeColor: accentColor,
+                activeColor: appTheme.currentTheme.colorScheme.tertiary,
                 onChanged: (value) => appTheme.customTheme = value),
           ),
         ],

@@ -91,7 +91,8 @@ class CurveHeader extends StatelessWidget {
 }
 
 class WaveHeader extends StatelessWidget {
-  const WaveHeader({super.key});
+  final Color color;
+  const WaveHeader({super.key, this.color = const Color(0xff615aab)});
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +100,7 @@ class WaveHeader extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       child: CustomPaint(
-        painter: _WaveHeaderPainter(),
+        painter: _WaveHeaderPainter(color),
       ),
     );
   }
@@ -231,12 +232,16 @@ class _CurveHeaderPainter extends CustomPainter {
 }
 
 class _WaveHeaderPainter extends CustomPainter {
+  final Color color;
+
+  _WaveHeaderPainter(this.color);
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint();
 
     // Props
-    paint.color = const Color(0xff615aab);
+    paint.color = color;
     paint.style = PaintingStyle.fill;
     paint.strokeWidth = 20;
 
