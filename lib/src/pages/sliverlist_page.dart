@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../theme/theme.dart';
 
 class SliverlistPage extends StatelessWidget {
   const SliverlistPage({super.key});
@@ -19,16 +22,21 @@ class _BigFloatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final appTheme = Provider.of<ThemeChanger>(context);
 
     final buttonStyle = ElevatedButton.styleFrom(
         fixedSize: Size(size.width * 0.7, 80),
         elevation: 0,
-        backgroundColor: const Color(0xffed6762),
+        backgroundColor: (appTheme.darkTheme)
+            ? appTheme.currentTheme.colorScheme.secondary
+            : const Color(0xffed6762),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(50))));
-    
-    const textStyle = TextStyle(
-        color: Colors.white,
+
+    final textStyle = TextStyle(
+        color: (appTheme.darkTheme)
+            ? appTheme.currentTheme.colorScheme.onSecondary
+            : Colors.white,
         fontSize: 18,
         fontWeight: FontWeight.bold,
         letterSpacing: 2);
@@ -37,7 +45,7 @@ class _BigFloatingButton extends StatelessWidget {
         child: ElevatedButton(
       style: buttonStyle,
       onPressed: () {},
-      child: const Text('CREATE NEW LIST', style: textStyle),
+      child: Text('CREATE NEW LIST', style: textStyle),
     ));
   }
 }
@@ -66,6 +74,7 @@ class _MainScroll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context);
     return CustomScrollView(
       slivers: [
         SliverPersistentHeader(
@@ -75,7 +84,7 @@ class _MainScroll extends StatelessWidget {
                 maxHeight: 220,
                 child: Container(
                     alignment: Alignment.centerLeft,
-                    color: Colors.white,
+                    color: appTheme.currentTheme.scaffoldBackgroundColor,
                     child: const _Title()))),
         SliverList(
             delegate: SliverChildListDelegate([
@@ -122,14 +131,20 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context);
+
     return Column(
       children: [
         const SizedBox(height: 30),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: const Text(
+          child: Text(
             'New',
-            style: TextStyle(color: Color(0xff532128), fontSize: 50),
+            style: TextStyle(
+                color: (appTheme.darkTheme)
+                    ? appTheme.currentTheme.colorScheme.primary
+                    : const Color(0xff532128),
+                fontSize: 50),
           ),
         ),
         Stack(
@@ -140,13 +155,18 @@ class _Title extends StatelessWidget {
               child: Container(
                 width: 150,
                 height: 8,
-                decoration: const BoxDecoration(color: Color(0xfff7cdd5)),
+                decoration: BoxDecoration(
+                    color: (appTheme.darkTheme)
+                        ? appTheme.currentTheme.colorScheme.secondary
+                        : const Color(0xfff7cdd5)),
               ),
             ),
-            const Text(
+            Text(
               'List',
               style: TextStyle(
-                  color: Color(0xffd93a30),
+                  color: (appTheme.darkTheme)
+                      ? appTheme.currentTheme.colorScheme.tertiary
+                      : const Color(0xffd93a30),
                   fontSize: 50,
                   fontWeight: FontWeight.bold),
             ),
@@ -165,13 +185,18 @@ class _TodoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context);
+
     return Container(
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.all(30),
       height: 130,
       margin: const EdgeInsets.all(10),
-      decoration:
-          BoxDecoration(color: color, borderRadius: BorderRadius.circular(30)),
+      decoration: BoxDecoration(
+          color: (appTheme.darkTheme)
+              ? appTheme.currentTheme.colorScheme.tertiary
+              : color,
+          borderRadius: BorderRadius.circular(30)),
       child: Text(
         text,
         style: const TextStyle(
