@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'src/pages/launcher_page.dart';
+import 'src/theme/theme.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(ChangeNotifierProvider(
+      create: (_) => ThemeChanger(), child: const MainApp()));
 }
 
 class MainApp extends StatelessWidget {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../routes/routes.dart';
+import '../theme/theme.dart';
 
 class LauncherPage extends StatelessWidget {
   const LauncherPage({super.key});
@@ -51,6 +53,8 @@ class _MainMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context);
+
     return Drawer(
       child: Column(
         children: [
@@ -72,13 +76,17 @@ class _MainMenu extends StatelessWidget {
             leading: const Icon(Icons.lightbulb_outline, color: Colors.blue),
             title: const Text('Dark Mode'),
             trailing: Switch.adaptive(
-                value: true, activeColor: Colors.blue, onChanged: (value) {}),
+                value: appTheme.darkTheme,
+                activeColor: Colors.blue,
+                onChanged: (value) => appTheme.darkTheme = value),
           ),
           ListTile(
             leading: const Icon(Icons.add_to_home_screen, color: Colors.blue),
             title: const Text('Custom Theme'),
             trailing: Switch.adaptive(
-                value: true, activeColor: Colors.blue, onChanged: (value) {}),
+                value: appTheme.customTheme,
+                activeColor: Colors.blue,
+                onChanged: (value) => appTheme.customTheme = value),
           ),
         ],
       ),
