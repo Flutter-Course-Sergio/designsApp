@@ -6,7 +6,7 @@ import 'src/theme/theme.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-      create: (_) => ThemeChanger(), child: const MainApp()));
+      create: (_) => ThemeChanger(2), child: const MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -14,8 +14,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LauncherPage(),
+    final appTheme = Provider.of<ThemeChanger>(context).currentTheme;
+
+    return MaterialApp(
+      theme: appTheme,
+      home: const LauncherPage(),
       title: 'Designs App',
       debugShowCheckedModeBanner: false,
     );
