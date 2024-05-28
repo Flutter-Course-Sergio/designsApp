@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../models/layout_model.dart';
 import '../routes/routes.dart';
 import '../theme/theme.dart';
-import 'slideshow_page.dart';
 
 class LauncherTabletPage extends StatelessWidget {
   const LauncherTabletPage({super.key});
