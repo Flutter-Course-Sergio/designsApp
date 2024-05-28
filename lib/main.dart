@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'src/models/layout_model.dart';
 import 'src/pages/launcher_page.dart';
 import 'src/pages/launcher_tablet_page.dart';
 import 'src/theme/theme.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-      create: (_) => ThemeChanger(2), child: const MainApp()));
+    create: (_) => LayoutModel(),
+    child: ChangeNotifierProvider(
+        create: (_) => ThemeChanger(2), child: const MainApp()),
+  ));
 }
 
 class MainApp extends StatelessWidget {

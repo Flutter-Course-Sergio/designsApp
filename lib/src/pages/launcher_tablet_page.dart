@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../models/layout_model.dart';
 import '../routes/routes.dart';
 import '../theme/theme.dart';
 import 'slideshow_page.dart';
@@ -12,6 +13,7 @@ class LauncherTabletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = Provider.of<ThemeChanger>(context).currentTheme;
+    final layoutModel = Provider.of<LayoutModel>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -30,7 +32,7 @@ class LauncherTabletPage extends StatelessWidget {
               height: double.infinity,
               color: appTheme.colorScheme.onBackground,
             ),
-            const Expanded(child: SlideshowPage())
+            Expanded(child: layoutModel.currentPage)
           ],
         ));
   }
@@ -57,11 +59,9 @@ class _OptionsList extends StatelessWidget {
                 color: appTheme.colorScheme.secondary,
               ),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => pageRoutes[index].page,
-                    ));
+                final layoutModel =
+                    Provider.of<LayoutModel>(context, listen: false);
+                layoutModel.currentPage = pageRoutes[index].page;
               },
             ),
         itemCount: pageRoutes.length);
